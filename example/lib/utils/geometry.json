@@ -1,0 +1,149 @@
+{
+  "room": {
+    "dimensions": {
+      "length": 5.2,
+      "width": 4.1,
+      "height": 2.8
+    },
+    "walls": [
+      {
+        "uuid": "wall-001",
+        "position": {
+          "x": 0.0,
+          "y": 1.4,
+          "z": -2.05
+        },
+        "points": [
+          {"x": -2.6, "y": 0.0, "z": -2.05},
+          {"x": 2.6, "y": 0.0, "z": -2.05},
+          {"x": 2.6, "y": 2.8, "z": -2.05},
+          {"x": -2.6, "y": 2.8, "z": -2.05}
+        ],
+        "width": 5.2,
+        "height": 2.8,
+        "confidence": "high",
+        "openings": [
+          {
+            "uuid": "door-001",
+            "type": "door",
+            "position": {
+              "x": -1.5,
+              "y": 1.05,
+              "z": -2.05
+            },
+            "width": 0.9,
+            "height": 2.1,
+            "confidence": "high",
+            "dimensions": {
+              "length": 0.1,
+              "width": 0.9,
+              "height": 2.1
+            },
+            "transform": null
+          }
+        ],
+        "dimensions": {
+          "length": 0.12,
+          "width": 5.2,
+          "height": 2.8
+        },
+        "transform": null
+      }
+    ],
+    "objects": [
+      {
+        "uuid": "object-001",
+        "position": {
+          "x": 0.8,
+          "y": 0.45,
+          "z": 0.6
+        },
+        "category": "table",
+        "width": 1.4,
+        "height": 0.9,
+        "length": 0.8,
+        "confidence": "high",
+        "dimensions": {
+          "length": 0.8,
+          "width": 1.4,
+          "height": 0.9
+        },
+        "transform": null
+      },
+      {
+        "uuid": "object-002",
+        "position": {
+          "x": -1.2,
+          "y": 0.5,
+          "z": 1.1
+        },
+        "category": "sofa",
+        "width": 2.1,
+        "height": 1.0,
+        "length": 0.9,
+        "confidence": "medium",
+        "dimensions": {
+          "length": 0.9,
+          "width": 2.1,
+          "height": 1.0
+        },
+        "transform": null
+      }
+    ],
+    "doors": [
+      {
+        "uuid": "door-001",
+        "type": "door",
+        "position": {
+          "x": -1.5,
+          "y": 1.05,
+          "z": -2.05
+        },
+        "width": 0.9,
+        "height": 2.1,
+        "confidence": "high",
+        "dimensions": {
+          "length": 0.1,
+          "width": 0.9,
+          "height": 2.1
+        },
+        "transform": null
+      }
+    ],
+    "windows": [
+      {
+        "uuid": "window-001",
+        "type": "window",
+        "position": {
+          "x": 1.1,
+          "y": 1.5,
+          "z": 2.05
+        },
+        "width": 1.5,
+        "height": 1.2,
+        "confidence": "high",
+        "dimensions": {
+          "length": 0.1,
+          "width": 1.5,
+          "height": 1.2
+        },
+        "transform": null
+      }
+    ],
+    "openings": [],
+    "floor": null,
+    "ceiling": null
+  },
+  "metadata": {
+    "scanDate": "2026-08-31T14:32:18.250",
+    "scanDuration": 42.7,
+    "deviceModel": "iPhone15,2",
+    "hasLidar": true
+  },
+  "confidence": {
+    "overall": 0.93,
+    "wallAccuracy": 0.96,
+    "dimensionAccuracy": 0.91,
+    "warnings": []
+  }
+}
