@@ -63,7 +63,7 @@ with dimensions, 3D positions, transforms, and confidence levels.
 
 | Feature | iOS Version | Status |
 |---------|------------|--------|
-| USDZ export (`captureSession.export()`) | 17.0 | ❌ Not exposed |
+| USDZ export (`CapturedRoom.export()`) | 16.0 | ✅ Exposed through `ScanResult.usdzFilePath` |
 | `StructureBuilder` (`.porcelain`, etc.) | 17.0 | ❌ Not exposed |
 | `pause()` / `resume()` | 17.0 | ❌ Not exposed |
 | `visualizationMode` customization | 17.0 | ❌ Not exposed |

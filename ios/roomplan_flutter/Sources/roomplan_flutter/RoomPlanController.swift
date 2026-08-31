@@ -258,6 +258,10 @@ class RoomPlanController: NSObject, RoomCaptureSessionDelegate, FlutterStreamHan
   private var startTime: Date?
   private var endTime: Date?
 
+  /// USDZ exports are temporary scan artifacts. Keeping them in a dedicated
+  /// directory lets us clean only files owned by this plugin.
+  private let exportDirectoryName = "roomplan_flutter_usdz"
+
   /// The event sink for the Flutter event channel.
   private var eventSink: FlutterEventSink?
 
@@ -281,6 +285,10 @@ class RoomPlanController: NSObject, RoomCaptureSessionDelegate, FlutterStreamHan
       result(FlutterError(code: "unknown_error", message: "An unexpected error occurred.", details: error.localizedDescription))
       return
     }
+
+    // A scan result only guarantees its USDZ file until the next valid scan starts.
+    // Remove artifacts from earlier scans without touching other cache data.
+    cleanupOldExports()
 
     roomCaptureView = RoomCaptureView(frame: .zero)
     roomCaptureView?.captureSession.delegate = self
@@ -513,16 +521,63 @@ class RoomPlanController: NSObject, RoomCaptureSessionDelegate, FlutterStreamHan
         "has_lidar": hasLidar,
       ] as [String: Any]
 
+    let usdzURL: URL
+    do {
+      usdzURL = try exportUSDZ(from: finalResults)
+    } catch {
+      cleanupOldExports()
+      flutterResult?(
+        FlutterError(
+          code: "export_failed", message: "Failed to export the room as USDZ.",
+          details: error.localizedDescription))
+      flutterResult = nil
+      return
+    }
+
     do {
       let json = try RoomPlanJSONConverter.convertToJSON(
-        capturedRoom: finalResults, metadata: metadata)
+        capturedRoom: finalResults,
+        metadata: metadata,
+        usdzFilePath: usdzURL.path)
       flutterResult?(json)
+      flutterResult = nil
     } catch {
+      cleanupOldExports()
       flutterResult?(
         FlutterError(
           code: "serialization_error", message: "Failed to serialize final room data.",
           details: error.localizedDescription))
+      flutterResult = nil
     }
+  }
+
+  /// Exports the captured room to a plugin-owned temporary directory.
+  private func exportUSDZ(from room: CapturedRoom) throws -> URL {
+    let directoryURL = FileManager.default.temporaryDirectory
+      .appendingPathComponent(exportDirectoryName, isDirectory: true)
+
+    try FileManager.default.createDirectory(
+      at: directoryURL,
+      withIntermediateDirectories: true
+    )
+
+    // The leading letter also keeps the filename valid on iOS versions where
+    // RoomPlan doesn't accept USD filenames beginning with a number.
+    let fileURL = directoryURL
+      .appendingPathComponent("room_\(UUID().uuidString)")
+      .appendingPathExtension("usdz")
+
+    try room.export(to: fileURL, exportOptions: .mesh)
+    return fileURL
+  }
+
+  /// Removes only USDZ artifacts previously created by this plugin.
+  private func cleanupOldExports() {
+    let directoryURL = FileManager.default.temporaryDirectory
+      .appendingPathComponent(exportDirectoryName, isDirectory: true)
+
+    guard FileManager.default.fileExists(atPath: directoryURL.path) else { return }
+    try? FileManager.default.removeItem(at: directoryURL)
   }
 
   /// Called when the scanning session starts.

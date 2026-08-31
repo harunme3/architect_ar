@@ -7,7 +7,11 @@ import os
 @available(iOS 16.0, *)
 struct RoomPlanJSONConverter {
   /// Converts a `CapturedRoom` object into a JSON string.
-  static func convertToJSON(capturedRoom: CapturedRoom, metadata: [String: Any]) throws -> String? {
+  static func convertToJSON(
+    capturedRoom: CapturedRoom,
+    metadata: [String: Any],
+    usdzFilePath: String? = nil
+  ) throws -> String? {
     let serializableRoom = SerializableRoom(from: capturedRoom)
 
     var stringMetadata: [String: String] = [:]
@@ -16,7 +20,10 @@ struct RoomPlanJSONConverter {
     }
 
     let serializableResult = SerializableScanResult(
-      room: serializableRoom, metadata: stringMetadata)
+      room: serializableRoom,
+      metadata: stringMetadata,
+      usdzFilePath: usdzFilePath
+    )
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
     let data = try encoder.encode(serializableResult)
@@ -27,6 +34,13 @@ struct RoomPlanJSONConverter {
 struct SerializableScanResult: Encodable {
   let room: SerializableRoom
   let metadata: [String: String]
+  let usdzFilePath: String?
+
+  enum CodingKeys: String, CodingKey {
+    case room
+    case metadata
+    case usdzFilePath = "usdz_file_path"
+  }
 }
 
 /// A serializable representation of a `CapturedRoom`.

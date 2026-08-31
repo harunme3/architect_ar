@@ -13,7 +13,8 @@ void main() {
     "dimensions": {"x": 5.0, "y": 2.5, "z": 4.0},
     "walls": [], "objects": [], "doors": [], "windows": [],
     "metadata": { "session_duration": 120 },
-    "confidence": { "overall": 0.8 }
+    "confidence": { "overall": 0.8 },
+    "usdz_file_path": "/tmp/roomplan_flutter_usdz/room_test.usdz"
   }
   ''';
 
@@ -50,6 +51,10 @@ void main() {
 
       expect(result, isNotNull);
       expect(result, isA<ScanResult>());
+      expect(
+        result!.usdzFilePath,
+        '/tmp/roomplan_flutter_usdz/room_test.usdz',
+      );
       scanner.dispose();
     });
 

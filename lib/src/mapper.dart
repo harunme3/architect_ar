@@ -36,6 +36,7 @@ ScanResult _toScanResult(Map<String, dynamic> data) {
     metadata: _toScanMetadata(data['metadata'] as Map<String, dynamic>?),
     confidence: _toScanConfidence(data['confidence'] as Map<String, dynamic>? ??
         roomData['confidence'] as Map<String, dynamic>?),
+    usdzFilePath: (data['usdz_file_path'] ?? data['usdzFilePath']) as String?,
   );
 }
 

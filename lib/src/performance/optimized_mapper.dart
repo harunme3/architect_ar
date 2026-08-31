@@ -53,6 +53,7 @@ class OptimizedMapper {
       room: _toRoomDataOptimized(roomData),
       metadata: _toScanMetadataOptimized(metadataData),
       confidence: _toScanConfidenceOptimized(confidenceData, roomData),
+      usdzFilePath: (data['usdz_file_path'] ?? data['usdzFilePath']) as String?,
     );
   }
 

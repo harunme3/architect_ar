@@ -95,6 +95,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
       final result = await _roomScanner.startScanning();
       if (result != null) {
         print('Scan complete! Room has ${result.room.walls.length} walls.');
+        print('USDZ file: ${result.usdzFilePath}');
         // Process your scan result here
       }
     } on RoomPlanPermissionsException {
@@ -390,6 +391,11 @@ Refer to the source code for detailed information on all fields.
 #### Properties
 
 - `Stream<ScanResult?> onScanResult` - Stream of real-time scan updates
+
+### ScanResult
+
+- `usdzFilePath`: Absolute path to the generated temporary USDZ file. Copy the
+  file to permanent storage if needed; it is deleted when the next valid scan starts.
 
 ### ScanConfiguration
 
