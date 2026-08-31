@@ -35,6 +35,7 @@ class ScannerViewModel extends ChangeNotifier {
 
       if (result != null) {
         _currentScanResult = result;
+        debugPrint(' Json: ${ result.toJson()}');
         _scanStatus = 'Scan completed successfully!';
       } else {
         _scanStatus = 'Scan was cancelled by the user';
